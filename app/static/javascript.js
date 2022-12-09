@@ -37,6 +37,30 @@
 
             form.addEventListener('submit', sendForm, false);
         }
+        if (doc.querySelector('#register-form')) {
+            let form = doc.querySelector('#register-form');
+
+            function sendForm(event) {
+                event.preventDefault();
+                let data = new FormData(form);
+                let ajax = new XMLHttpRequest();
+                let token = doc.querySelectorAll('input')[0].value;
+                ajax.open('POST', form.action);
+                ajax.setRequestHeader('X-CSRFToken', token);
+                ajax.onreadystatechange = function () {
+                    if (ajax.readyState === 4 && ajax.status === 200) {
+                        let result = doc.querySelector('#result');
+                        result.innerHTML = 'User created with success!';
+                        result.classList.add('alert');
+                        result.classList.add('alert-success');
+                    }
+                }
+                ajax.send(data);
+                form.reset();
+            }
+
+            form.addEventListener('submit', sendForm, false);
+        }
     }
 )
 (window, document);

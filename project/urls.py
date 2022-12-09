@@ -16,15 +16,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from app.views import home, form, create, view, edit, update, delete
+from app.views import home, form, create_car, view_car, edit_car, update_car, delete_car, create_user
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", home, name="home"),
     path("form/", form, name="form"),
-    path("create/", create, name="create"),
-    path("view/<int:id>/", view, name="view"),
-    path("edit/<int:id>/", edit, name="edit"),
-    path("update/<int:id>/", update, name="update"),
-    path("delete/<int:id>/", delete, name="delete"),
+    path("create/", create_car, name="create"),
+    path("view/<int:id>/", view_car, name="view"),
+    path("edit/<int:id>/", edit_car, name="edit"),
+    path("update/<int:id>/", update_car, name="update"),
+    path("delete/<int:id>/", delete_car, name="delete"),
+    path("register/", create_user, name="register"),
 ]

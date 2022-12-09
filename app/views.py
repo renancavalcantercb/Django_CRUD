@@ -1,7 +1,9 @@
+import bcrypt
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
+from django.contrib.auth.hashers import make_password
 
-from app.forms import CarForm
+from app.forms import CarForm, UserForm
 from app.models import Car
 
 
@@ -25,19 +27,19 @@ def form(request):
     return render(request, "form.html", data)
 
 
-def create(request):
+def create_car(request):
     form = CarForm(request.POST or None)
     if form.is_valid():
         form.save()
         return redirect('home')
 
 
-def view(request, id):
+def view_car(request, id):
     data = {'car': Car.objects.get(id=id)}
     return render(request, "view.html", data)
 
 
-def edit(request, id):
+def edit_car(request, id):
     data = {}
     car = Car.objects.get(id=id)
     data['car'] = car
@@ -45,7 +47,7 @@ def edit(request, id):
     return render(request, "form.html", data)
 
 
-def update(request, id):
+def update_car(request, id):
     data = {'car': Car.objects.get(id=id)}
     form = CarForm(request.POST or None, instance=data['car'])
     if form.is_valid():
@@ -53,7 +55,18 @@ def update(request, id):
         return redirect('home')
 
 
-def delete(request, id):
+def delete_car(request, id):
     car = Car.objects.get(id=id)
     car.delete()
     return redirect('home')
+
+
+def create_user(request):
+    data = {'form': UserForm()}
+    form = UserForm(request.POST or None)
+    if form.is_valid():
+        user = form.save(commit=False)
+        user.password = make_password(form.cleaned_data['password'])
+        user.save()
+        return redirect('home')
+    return render(request, "register.html", data)
