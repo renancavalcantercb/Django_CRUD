@@ -128,3 +128,6 @@ def logout_user(request):
     div_class = 'alert alert-success'
     messages.warning(request, message, extra_tags=div_class)
     return redirect('login')
+
+def error_404(request, exception):
+    return render(request, '404.html')
