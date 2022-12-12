@@ -1,7 +1,8 @@
-import bcrypt
+from django.contrib import messages
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
-from django.contrib.auth.hashers import make_password
 
 from app.forms import CarForm, UserForm
 from app.models import Car
@@ -11,7 +12,7 @@ from app.models import Car
 def home(request):
     data = {'cars': Car.objects.all()}
     all = Car.objects.all()
-    paginator = Paginator(all, 2)
+    paginator = Paginator(all, 2, orphans=1)
     page = request.GET.get('page')
     data['cars'] = paginator.get_page(page)
     search = request.GET.get('search')
@@ -65,8 +66,22 @@ def create_user(request):
     data = {'form': UserForm()}
     form = UserForm(request.POST or None)
     if form.is_valid():
-        user = form.save(commit=False)
-        user.password = make_password(form.cleaned_data['password'])
-        user.save()
-        return redirect('home')
+        username = form.cleaned_data['username']
+        email = form.cleaned_data['email']
+        password = form.cleaned_data['password']
+        if User.objects.filter(username=username).exists():
+            message = f'The user "{username}" is already in use'
+            div_class = 'alert alert-danger'
+            messages.warning(request, message, extra_tags=div_class)
+        elif User.objects.filter(email=email).exists():
+            message = f'The email "{email}" is already in use'
+            div_class = 'alert alert-danger'
+            messages.warning(request, message, extra_tags=div_class)
+        else:
+            user = form.save(commit=False)
+            user.password = make_password(form.cleaned_data['password'])
+            User.objects.create_user(username=username, email=email, password=password)
+            user.save()
+            messages.warning(request, 'User created successfully', extra_tags='alert alert-success')
+            return redirect('register')
     return render(request, "register.html", data)

@@ -18,3 +18,4 @@ class UserForm(ModelForm):
             'password': forms.PasswordInput(),
         }
         fields = ['username', 'email', 'password']
+

@@ -44,7 +44,13 @@
 </div>
 
 <div class="col-8 m-auto">
-    <div id="result"></div>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
     <form action="/register/" method="post" id="register-form" name="register-form">
         {% csrf_token %}
         <div class="form-group">
