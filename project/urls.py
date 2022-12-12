@@ -16,7 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from app.views import home, form, create_car, view_car, edit_car, update_car, delete_car, create_user
+from app.views import home, form, create_car, view_car, edit_car, update_car, delete_car, create_user, login_user, \
+    login_user_without_auth, logout_user
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -28,4 +29,8 @@ urlpatterns = [
     path("update/<int:id>/", update_car, name="update"),
     path("delete/<int:id>/", delete_car, name="delete"),
     path("register/", create_user, name="register"),
+    path("login/", login_user, name="login"),
+    path("login_auth/", login_user_without_auth, name="login_without_auth"),
+    path("logout/", logout_user, name="logout"),
+
 ]
