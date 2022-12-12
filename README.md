@@ -18,7 +18,7 @@ The Front-end is made with Bootstrap 5.
 - [x] Register (Create a new user)
 - [x] Login (Login with a user)
 - [x] Logout (Logout with a user)
-- [ ] 404 Page (Page not found)
+- [x] 404 Page (Page not found)
 
 ## Future Features
 - [ ] Email confirmation
