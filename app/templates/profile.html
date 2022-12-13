@@ -31,18 +31,27 @@
 </nav>
 
 <div class="col-8 m-auto pt-2 pb-2 text-center">
-    <h1>Car info</h1>
+    <h1>User Profile</h1>
 </div>
 
-
 <div class="col-8 m-auto pt-2 pb-2 text-center">
-    <strong>Model:</strong> {{ car.model }} <br>
-    <strong>Brand:</strong> {{ car.brand }} <br>
-    <strong>Year:</strong> {{ car.year }} <br>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <strong>First Name:</strong> {{ user.first_name }} <br>
+    <strong>Last Name:</strong> {{ user.last_name }} <br>
+    <strong>Username:</strong> {{ user.username }} <br>
+    <strong>Email:</strong> {{ user.email }} <br>
 </div>
 
 <div class="col-8 m-auto pt-2 pb-2 text-center">
     <a href="/" class="btn btn-info">Back</a>
+    <a href="/profile/{{ user.id }}" class="btn btn-info" style="margin-left:5px;">Edit</a>
 </div>
+{% load static %}
 </body>
 </html>

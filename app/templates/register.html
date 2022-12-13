@@ -23,15 +23,7 @@
     {% endif %}
     <form action="/register/" method="post" id="register-form" name="register-form">
         {% csrf_token %}
-        <div class="form-group">
-            <div class="form-group mt-4">Username: {{ form.username }}</div>
-        </div>
-        <div class="form-group">
-            <div class="form-group mt-4">Email: {{ form.email }}</div>
-        </div>
-        <div class="form-group">
-            <div class="form-group mt-4">Password: {{ form.password }}</div>
-        </div>
+        {{ form.as_p }}
         <button type="submit" class="btn btn-primary mt-4">Submit</button>
         <p class="mt-4">Already have an account? <a href="/login/">Login</a></p>
     </form>

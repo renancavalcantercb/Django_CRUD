@@ -3,12 +3,14 @@ from django.db import models
 
 # Create your models here.
 class Car(models.Model):
-    modelo = models.CharField(max_length=150)
-    marca = models.CharField(max_length=100)
-    ano = models.IntegerField()
+    model = models.CharField(max_length=150)
+    brand = models.CharField(max_length=100)
+    year = models.IntegerField()
 
 
 class User(models.Model):
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
     username = models.CharField(max_length=50)
     email = models.CharField(max_length=50)
     password = models.CharField(max_length=50)

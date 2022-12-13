@@ -19,11 +19,12 @@ The Front-end is made with Bootstrap 5.
 - [x] Login (Login with a user)
 - [x] Logout (Logout with a user)
 - [x] 404 Page (Page not found)
+- [X] User profile
+- [X] Edit user profile
 
 ## Future Features
 - [ ] Email confirmation
 - [ ] Password reset
-- [ ] User profile
 - [ ] User permissions
 - [ ] User groups
 

@@ -7,17 +7,19 @@ from app.models import Car, User
 class CarForm(ModelForm):
     class Meta:
         model = Car
-        fields = ['modelo', 'marca', 'ano']
+        fields = ['model', 'brand', 'year']
 
 
 class UserForm(ModelForm):
     class Meta:
         model = User
         widgets = {
+            'first_name': forms.TextInput(),
+            'last_name': forms.TextInput(),
             'email': forms.EmailInput(attrs={'placeholder': 'email@example.com'}),
-            'password': forms.PasswordInput(),
+            'password': forms.PasswordInput()
         }
-        fields = ['username', 'email', 'password']
+        fields = ['first_name', 'last_name', 'username', 'email', 'password']
 
     class LoginForm(ModelForm):
         class Meta:
@@ -27,3 +29,9 @@ class UserForm(ModelForm):
                 'password': forms.PasswordInput(),
             }
             fields = ['email', 'password']
+
+
+class UpdateUserForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']

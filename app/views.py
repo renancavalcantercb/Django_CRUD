@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 
-from app.forms import CarForm, UserForm
+from app.forms import CarForm, UserForm, UpdateUserForm
 from app.models import Car
 
 
@@ -14,16 +14,17 @@ from app.models import Car
 @login_required(login_url='login_without_auth')
 def home(request):
     cars = Car.objects.all()
+    user = User.objects.get(id=request.user.id)
     search = request.GET.get('search')
     if search:
-        cars = cars.filter(modelo__icontains=search) | cars.filter(marca__icontains=search) | cars.filter(
-            ano__icontains=search)
+        cars = cars.filter(model__icontains=search) | cars.filter(brand__icontains=search) | cars.filter(
+            year__icontains=search)
     else:
         cars = Car.objects.all()
     paginator = Paginator(cars, 5)
     page = request.GET.get('page')
     cars = paginator.get_page(page)
-    return render(request, "index.html", {'cars': cars})
+    return render(request, "index.html", {'cars': cars, 'user': user})
 
 
 @login_required(login_url='login_without_auth')
@@ -76,6 +77,8 @@ def create_user(request):
     data = {'form': UserForm()}
     form = UserForm(request.POST or None)
     if form.is_valid():
+        first_name = form.cleaned_data['first_name']
+        last_name = form.cleaned_data['last_name']
         username = form.cleaned_data['username']
         email = form.cleaned_data['email']
         password = form.cleaned_data['password']
@@ -90,7 +93,8 @@ def create_user(request):
         else:
             user = form.save(commit=False)
             user.password = make_password(form.cleaned_data['password'])
-            User.objects.create_user(username=username, email=email, password=password)
+            User.objects.create_user(first_name=first_name, last_name=last_name, username=username, email=email,
+                                     password=password)
             user.save()
             messages.warning(request, 'User created successfully', extra_tags='alert alert-success')
             return redirect('register')
@@ -128,6 +132,36 @@ def logout_user(request):
     div_class = 'alert alert-success'
     messages.warning(request, message, extra_tags=div_class)
     return redirect('login')
+
+
+@login_required(login_url='login_without_auth')
+def view_profile_user(request):
+    data = {}
+    user = User.objects.get(id=request.user.id)
+    data['user'] = user
+    return render(request, "profile.html", data)
+
+
+@login_required(login_url='login_without_auth')
+def edit_profile_user(request, id):
+    data = {}
+    user = User.objects.get(id=id)
+    data['user'] = user
+    data['form'] = UserForm(instance=user)
+    return render(request, "edit_profile.html", data)
+
+
+def update_profile_user(request, id):
+    data = {'user': User.objects.get(id=id)}
+    form = UpdateUserForm(request.POST or None, instance=data['user'])
+    if form.is_valid():
+        form.save()
+        message = 'Profile updated successfully'
+        div_class = 'alert alert-success'
+        messages.warning(request, message, extra_tags=div_class)
+        return redirect('profile')
+    return render(request, "edit_profile.html", data)
+
 
 def error_404(request, exception):
     return render(request, '404.html')

@@ -16,8 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from app.views import home, form, create_car, view_car, edit_car, update_car, delete_car, create_user, login_user, \
-    login_user_without_auth, logout_user
+from app.views import *
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -32,6 +31,9 @@ urlpatterns = [
     path("login/", login_user, name="login"),
     path("login_auth/", login_user_without_auth, name="login_without_auth"),
     path("logout/", logout_user, name="logout"),
+    path("profile/", view_profile_user, name="profile"),
+    path("profile/<int:id>/", edit_profile_user, name="profile_edit"),
+    path("profile_update/<int:id>/", update_profile_user, name="profile_update"),
 
 ]
 handler404 = 'app.views.error_404'

@@ -28,7 +28,7 @@
             </ul>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <p class="nav-link">Olá, {{ user.email }}</p>
+                    <a href="profile" class="nav-link">Olá, {{ user.first_name }}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/logout">Sair</a>
@@ -67,29 +67,29 @@
         </thead>
         <tbody>
         {% for car in cars %}
-        <tr>
-            <th scope="row">{{ car.id }}</th>
-            <td>{{ car.marca }}</td>
-            <td>{{ car.modelo }}</td>
-            <td>{{ car.ano }}</td>
-            <td>
-                <a href="/view/{{ car.id }}/" class="btn btn-dark">View</a>
-                <a href="/edit/{{ car.id }}/" class="btn btn-primary">Edit</a>
-                <a href="/delete/{{ car.id }}/" class="btn btn-danger btnDel">Delete</a>
-            </td>
-        </tr>
+            <tr>
+                <th scope="row">{{ car.id }}</th>
+                <td>{{ car.brand }}</td>
+                <td>{{ car.model }}</td>
+                <td>{{ car.year }}</td>
+                <td>
+                    <a href="/view/{{ car.id }}/" class="btn btn-dark">View</a>
+                    <a href="/edit/{{ car.id }}/" class="btn btn-primary">Edit</a>
+                    <a href="/delete/{{ car.id }}/" class="btn btn-danger btnDel">Delete</a>
+                </td>
+            </tr>
         {% endfor %}
         </tbody>
     </table>
 </div>
 <div class="pagination justify-content-center" style="display: grid; grid-auto-flow: column; grid-column-gap: 10px">
     {% if cars.has_previous %}
-    <a href="?page={{ cars.previous_page_number }}" class="btn btn-dark">Previous</a>
+        <a href="?page={{ cars.previous_page_number }}" class="btn btn-dark">Previous</a>
     {% endif %}
-    <div class="text-center" style="margin-top:5px">{{cars.number }}</div>
+    <div class="text-center" style="margin-top:5px">{{ cars.number }}</div>
 
     {% if cars.has_next %}
-    <a href="?page={{ cars.next_page_number }}" class="btn btn-dark">Next</a>
+        <a href="?page={{ cars.next_page_number }}" class="btn btn-dark">Next</a>
     {% endif %}
 </div>
 
