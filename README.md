@@ -21,10 +21,10 @@ The Front-end is made with Bootstrap 5.
 - [x] 404 Page (Page not found)
 - [X] User profile
 - [X] Edit user profile
+- [X] Password reset
 
 ## Future Features
 - [ ] Email confirmation
-- [ ] Password reset
 - [ ] User permissions
 - [ ] User groups
 
@@ -39,10 +39,10 @@ The Front-end is made with Bootstrap 5.
 
 ```console
 git clone
-cd Django- [ ]CRUD
-python - [ ]m venv .venv
+cd Django-CRUD
+python -m venv .venv
 source .venv/bin/activate
-pip install - [ ]r requirements.txt
+pip install -r requirements.txt
 python manage.py migrate
 python manage.py runserver
 ```

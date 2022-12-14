@@ -34,6 +34,7 @@ urlpatterns = [
     path("profile/", view_profile_user, name="profile"),
     path("profile/<int:id>/", edit_profile_user, name="profile_edit"),
     path("profile_update/<int:id>/", update_profile_user, name="profile_update"),
+    path("password/<int:id>/", change_password_user, name="password_edit"),
 
 ]
 handler404 = 'app.views.error_404'

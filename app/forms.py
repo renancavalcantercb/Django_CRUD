@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 
-from app.models import Car, User
+from app.models import Car, UserProfile
 
 
 class CarForm(ModelForm):
@@ -12,7 +12,7 @@ class CarForm(ModelForm):
 
 class UserForm(ModelForm):
     class Meta:
-        model = User
+        model = UserProfile
         widgets = {
             'first_name': forms.TextInput(),
             'last_name': forms.TextInput(),
@@ -23,7 +23,7 @@ class UserForm(ModelForm):
 
     class LoginForm(ModelForm):
         class Meta:
-            model = User
+            model = UserProfile
             widgets = {
                 'email': forms.EmailInput(attrs={'placeholder': 'email@example.com'}),
                 'password': forms.PasswordInput(),
@@ -33,5 +33,14 @@ class UserForm(ModelForm):
 
 class UpdateUserForm(ModelForm):
     class Meta:
-        model = User
+        model = UserProfile
         fields = ['first_name', 'last_name', 'email']
+
+
+class ChangePasswordForm(ModelForm):
+    class Meta:
+        model = UserProfile
+        widgets = {
+            'password': forms.PasswordInput(),
+        }
+        fields = ['password']

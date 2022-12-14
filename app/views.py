@@ -1,12 +1,13 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login as auth_login, logout
+from django.contrib.auth import authenticate, logout
+from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 
-from app.forms import CarForm, UserForm, UpdateUserForm
+from app.forms import *
 from app.models import Car
 
 
@@ -93,9 +94,11 @@ def create_user(request):
         else:
             user = form.save(commit=False)
             user.password = make_password(form.cleaned_data['password'])
-            User.objects.create_user(first_name=first_name, last_name=last_name, username=username, email=email,
-                                     password=password)
-            user.save()
+            new_user = User.objects.create_user(first_name=first_name, last_name=last_name, username=username,
+                                                email=email,
+                                                password=password)
+
+            new_user.save()
             messages.warning(request, 'User created successfully', extra_tags='alert alert-success')
             return redirect('register')
     return render(request, "register.html", data)
@@ -161,6 +164,24 @@ def update_profile_user(request, id):
         messages.warning(request, message, extra_tags=div_class)
         return redirect('profile')
     return render(request, "edit_profile.html", data)
+
+
+@login_required(login_url='login_without_auth')
+def change_password_user(request, id):
+    data = {}
+    user = User.objects.get(id=id)
+    data['user'] = user
+    data['form'] = ChangePasswordForm(instance=user)
+    form = ChangePasswordForm(request.POST or None, instance=user)
+    if form.is_valid():
+        password = make_password(form.cleaned_data['password'])
+        user.password = password
+        user.save()
+        message = 'Password updated successfully'
+        div_class = 'alert alert-success'
+        messages.warning(request, message, extra_tags=div_class)
+        return redirect('profile')
+    return render(request, "change_password.html", data)
 
 
 def error_404(request, exception):
